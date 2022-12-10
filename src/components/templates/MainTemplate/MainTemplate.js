@@ -29,6 +29,13 @@ function MainTemplate (props) {
       navigate('/login')
     }
 
+    if(!globalState.loading
+      && globalState.user
+      && (location.pathname === '/login' || location.pathname === '/register')
+    ) {
+      navigate('/')
+    }
+
 
     // Zadanie na teraz:
 
