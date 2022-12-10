@@ -74,3 +74,24 @@ export const editMessage = (id, messageToEdit) => {
 //   fetch(`http://localhost:5000/users?email=${email}`)
 //     .then(res => res.json())
 // }
+
+
+
+
+
+
+
+// Do swojej aplikacji filmweb, dorob Routing
+
+// 1. Dopisz strone LoginPage
+// 2. Dopisz strone RegisterPage
+// 3. Zrob obsluge uzytkownikow za pomoca json-server
+// 4. Zrob templatke wspolna dla wszystkich stron
+// 5. Podziel aplikacje na komponenty, jesli jeszcze tego nie zrobiles/zrobilas
+
+// -------------- Dodatkowe ----------------
+
+// 6. Zmien authentykacje z json-server na firebase
+// 7. Zrob obsluge wyswietlania filmow z firebase
+// 8. Zrob obsluge dodawania filmow do firebase
+// 9. Ostyluj aplikacje

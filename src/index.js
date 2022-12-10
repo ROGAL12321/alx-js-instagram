@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import GlobalProvider from 'contexts/global';
+
 import HomePage from 'components/pages/HomePage/HomePage';
 import AddMessagePage from 'components/pages/AddMessagePage/AddMessagePage';
 import AboutPage from 'components/pages/AboutPage/AboutPage';
@@ -10,6 +12,19 @@ import LoginPage from 'components/pages/LoginPage/LoginPage';
 import RegisterPage from 'components/pages/RegisterPage/RegisterPage';
 
 import './index.css';
+
+// Globalny Stan jest to zjawisko, w ktorym definiujemy sobie stan aplikacji raz (np. na poziomie glownego index.js), a nastepnie dowolny komponent moze odczytac z tego stanu, bez przekazywania tego bezposrednio do propsow
+
+// Globalny Stan sklada sie z 2 czesci
+
+// Provider - Miejsce, w ktorym sa przechowywane globalne wartosci
+// Consumer - Pojedynczy komponent, ktory pobiera rzeczy z globalnego stanu
+
+// Kazda zmiana wartosci w providerze, powoduje przerenderowanie Consumera
+
+const globalState = {
+  headerText: "Hello from Global state"
+}
 
 const routes = createBrowserRouter([
   {
@@ -42,7 +57,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={routes} />
+    <GlobalProvider>
+      <RouterProvider router={routes} />
+    </GlobalProvider>
   </React.StrictMode>
 );
 
