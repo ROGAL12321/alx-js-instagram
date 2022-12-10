@@ -10,6 +10,7 @@ import AboutPage from 'components/pages/AboutPage/AboutPage';
 import EditPage from 'components/pages/EditPage/EditPage';
 import LoginPage from 'components/pages/LoginPage/LoginPage';
 import RegisterPage from 'components/pages/RegisterPage/RegisterPage';
+import ProfilePage from 'components/pages/ProfilePage/ProfilePage';
 
 import './index.css';
 
@@ -21,10 +22,6 @@ import './index.css';
 // Consumer - Pojedynczy komponent, ktory pobiera rzeczy z globalnego stanu
 
 // Kazda zmiana wartosci w providerze, powoduje przerenderowanie Consumera
-
-const globalState = {
-  headerText: "Hello from Global state"
-}
 
 const routes = createBrowserRouter([
   {
@@ -38,6 +35,10 @@ const routes = createBrowserRouter([
   {
     path: '/about',
     element: <AboutPage />
+  },
+  {
+    path: '/myprofile',
+    element: <ProfilePage />
   },
   {
     path: '/edit/:messageId',
