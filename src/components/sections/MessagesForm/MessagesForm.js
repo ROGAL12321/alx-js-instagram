@@ -6,20 +6,6 @@ function MessagesForm(props) {
     <form onSubmit={props.handleSubmit}>
       <div>
         <label>
-          Author
-          <Input
-            value={props.authorInput}
-            onChange={props.handleAuthorChange}
-          />
-        </label>
-        {
-          props.isAuthorInputError
-            ? <small>Pole author nie moze byc puste </small>
-            : null
-        }
-      </div>
-      <div>
-        <label>
           Message
           <Input
             value={props.messageInput}

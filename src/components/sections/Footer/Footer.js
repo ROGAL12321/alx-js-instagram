@@ -8,8 +8,6 @@ import './Footer.css';
 function Footer() {
   const globalState = useContext(GlobalContext)
 
-  console.log(globalState.theme)
-
   return (
     <footer
       className={`footer ${globalState.theme === 'dark' ? 'footer-dark' : ''}`}

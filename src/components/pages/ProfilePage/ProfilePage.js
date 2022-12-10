@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+
+import { GlobalContext } from 'contexts/global';
 
 import { auth } from 'helpers/firebase';
 
@@ -14,8 +16,20 @@ import MainTemplate from "components/templates/MainTemplate/MainTemplate"
 
 
 function ProfilePage() {
+  const globalState = useContext(GlobalContext);
+
+
+
   const [nameInputValue, setNameInputValue] = useState('');
   const [avatarInputValue, setAvatarInputValue] = useState('')
+
+  useEffect(() => {
+    if(globalState.user) {
+      setNameInputValue(globalState.user.displayName)
+      setAvatarInputValue(globalState.user.photoURL)
+    }
+
+  }, [globalState.user])
 
   const navigate = useNavigate();
 
