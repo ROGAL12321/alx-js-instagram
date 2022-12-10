@@ -11,12 +11,14 @@ export const GlobalContext = createContext();
 function GlobalProvider(props) {
   const [theme, setTheme] = useState('light')
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true);
 
   // useEffect wewnatrz Providera (Contextu) sluzy po to, zeby zaladowac na start rzeczy, ktore sa potrzebne dla calej aplikacji
   useEffect(() => {
     // metoda onAuthStateChanged jest to metoda z FB ktora sluzy do sprawdzania, czy uzytkownik jest zalogowany czy nie (czy sesja jest aktywna)
     onAuthStateChanged(auth, user => {
       setUser(user);
+      setLoading(false);
     })
   }, [])
 
@@ -45,7 +47,8 @@ function GlobalProvider(props) {
     theme,
     changeTheme,
     user,
-    setUser
+    setUser,
+    loading
   }
 
   return (

@@ -75,11 +75,6 @@ function Header(props) {
               )
               : null
           }
-          <li>
-            <Link to="/register">
-              Register
-            </Link>
-          </li>
           {
             globalState.user
               ? (
