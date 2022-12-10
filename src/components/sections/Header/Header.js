@@ -10,7 +10,7 @@ function Header(props) {
   // uzywajac useContext, automatycznie jestem konsumentem danego contextu (Providera)
   const globalState = useContext(GlobalContext);
 
-  console.log(globalState.theme)
+  console.log(globalState.user)
 
   // Stworz w globalnym stanie zmienna o nazwie footerText. Nastepnie odbierz jej wartosc w pliku Footer.js i wyswietl w konsoli
 
@@ -24,6 +24,14 @@ function Header(props) {
       />
       <nav>
         <ul>
+          {
+            globalState.user
+              ?
+                <li>
+                  Hello {globalState.user.email}
+                </li>
+              : null
+          }
           <li>
             {/* komponent Link od react-router-dom, rozni sie tym, ze zamiast atrybutu href jest atrybut to */}
             <Link to="/add">

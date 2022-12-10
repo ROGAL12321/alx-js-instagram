@@ -1,4 +1,7 @@
-import { useState, createContext } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useState, createContext, useEffect } from "react";
+
+import { auth } from "helpers/firebase";
 
 export const GlobalContext = createContext();
 
@@ -7,6 +10,27 @@ export const GlobalContext = createContext();
 
 function GlobalProvider(props) {
   const [theme, setTheme] = useState('light')
+  const [user, setUser] = useState(null)
+
+  // useEffect wewnatrz Providera (Contextu) sluzy po to, zeby zaladowac na start rzeczy, ktore sa potrzebne dla calej aplikacji
+  useEffect(() => {
+    // metoda onAuthStateChanged jest to metoda z FB ktora sluzy do sprawdzania, czy uzytkownik jest zalogowany czy nie (czy sesja jest aktywna)
+    onAuthStateChanged(auth, user => {
+      setUser(user);
+    })
+  }, [])
+
+
+  // 1. Stworz strone o nazwie MyProfile i podlinkuj ja w headerze i footerze
+  // 2. Wyswietl strone w headerze tylko wtedy, kiedy uzytkownik jest zalogowany
+  // 3. Strona MyProfile ma ladowac formularz, ktory zawiera 2 pola "Name" i "avatar"
+  // 4. Nastepnie za pomoca funkcji z FB o nazwie updateProfile (https://firebase.google.com/docs/auth/web/manage-users) dokonaj aktualizacji profilu
+  // 5. Po udanej aktualizacji, przejdz na strone glowna
+  // 6. Zrob obsluge wyswietlania avatara i displayName w headerze
+
+
+
+
   // atrybut value jest to atrybut ktory jest wymagany przy Providerze. W nim przekazujemy globalny stan aplikacji
 
   const changeTheme = () => {
@@ -20,7 +44,9 @@ function GlobalProvider(props) {
     headerText: 'Jakis tekst',
     footerText: 'Tekst w footera',
     theme,
-    changeTheme
+    changeTheme,
+    user,
+    setUser
   }
 
   return (

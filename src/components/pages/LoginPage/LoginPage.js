@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
+
 import { auth } from "helpers/firebase";
+import { GlobalContext } from "contexts/global";
 
 import LoginRegisterForm from "components/sections/LoginRegisterForm/LoginRegisterForm";
 import WelcomeMessage from "components/sections/WelcomeMessage/WelcomeMessage"
@@ -14,6 +16,8 @@ function LoginPage() {
   const [passwordInputValue, setPasswordInputValue] = useState('');
   const [isPasswordInputError, setIsPasswordInputError] = useState(false)
   const [isLoginError, setIsLoginError] = useState(false);
+
+  const globalState = useContext(GlobalContext)
 
   const navigate = useNavigate()
 
@@ -61,7 +65,8 @@ function LoginPage() {
     //   })
 
     signInWithEmailAndPassword(auth, emailInputValue, passwordInputValue)
-      .then(() => {
+      .then((data) => {
+        globalState.setUser(data.user);
         navigate('/')
       })
       .catch(() => {
