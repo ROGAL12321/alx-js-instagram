@@ -1,10 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
 import { updateProfile } from 'firebase/auth';
+import { uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 
 import { GlobalContext } from 'contexts/global';
 
-import { auth } from 'helpers/firebase';
+import { auth, storageRef } from 'helpers/firebase';
 
 import Button from "components/atoms/Button/Button"
 import WelcomeMessage from "components/sections/WelcomeMessage/WelcomeMessage"
@@ -18,15 +19,13 @@ import MainTemplate from "components/templates/MainTemplate/MainTemplate"
 function ProfilePage() {
   const globalState = useContext(GlobalContext);
 
-
-
   const [nameInputValue, setNameInputValue] = useState('');
   const [avatarInputValue, setAvatarInputValue] = useState('')
 
   useEffect(() => {
     if(globalState.user) {
       setNameInputValue(globalState.user.displayName)
-      setAvatarInputValue(globalState.user.photoURL)
+      // setAvatarInputValue(globalState.user.photoURL)
     }
 
   }, [globalState.user])
@@ -38,19 +37,29 @@ function ProfilePage() {
   }
 
   const handleAvatarInputChange = event => {
-    setAvatarInputValue(event.target.value)
+    // input type file przyjmuje zamiast pola .value, .files. Jest to tablica, poniewaz input type file moze przyjac wiecej niz 1 zdjecie.
+    setAvatarInputValue(event.target.files[0])
   }
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    updateProfile(auth.currentUser, {
-      displayName: nameInputValue,
-      photoURL: avatarInputValue
-    })
-    .then(() => {
-      navigate('/')
-    })
+    // jakos potrzebuje wyslac obrazek na serwer, a potem uzyc go do edycji profilu
+
+  // uploadBytes jest to funkcja z FB, ktora sluzy do przesylania plikow do Storage od FB
+    uploadBytes(storageRef, avatarInputValue)
+      .then(snapshot => {
+        return getDownloadURL(snapshot.ref)
+      })
+      .then(avatarURL => {
+        return updateProfile(auth.currentUser, {
+          displayName: nameInputValue,
+          photoURL: avatarURL
+        })
+      })
+      .then(() => {
+        navigate('/')
+      })
   }
 
   return (
@@ -69,7 +78,8 @@ function ProfilePage() {
         <label>
           avatar
           <input
-            value={avatarInputValue}
+            type="file"
+            // value={avatarInputValue}
             onChange={handleAvatarInputChange}
           />
         </label>
