@@ -15,6 +15,7 @@ function GlobalProvider(props) {
 
   // useEffect wewnatrz Providera (Contextu) sluzy po to, zeby zaladowac na start rzeczy, ktore sa potrzebne dla calej aplikacji
   useEffect(() => {
+
     // metoda onAuthStateChanged jest to metoda z FB ktora sluzy do sprawdzania, czy uzytkownik jest zalogowany czy nie (czy sesja jest aktywna)
     onAuthStateChanged(auth, user => {
       setUser(user);
@@ -50,6 +51,8 @@ function GlobalProvider(props) {
     setUser,
     loading
   }
+
+  // if (loading || databaseLoading) return <Loader />
 
   return (
     <GlobalContext.Provider value={globalState}>
